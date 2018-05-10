@@ -1,5 +1,8 @@
-go-files = ./rename/db.go \
-			main.go
+package-name = rename
+
+go-files = api.go db.go user.go
+
+srcs = $(go-files:%=$(package-name)/%)
 
 build: get-libraries main frontend
 
@@ -20,12 +23,12 @@ frontend: install-frontend
 	./node_modules/.bin/webpack
 
 init-db:
-	createuser --createdb --createrole --superuser --replication renameuser;
+	createuser --createdb --createrole --superuser --replication toiletbowl;
 
 install-frontend: package.json
 	npm i
 
-main:  $(go-files)
+main:  $(srcs) main.go
 	go build -o main
 
 clean:
